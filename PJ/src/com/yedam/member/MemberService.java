@@ -301,10 +301,17 @@ public class MemberService {
 	
 	
 	public void nowDv() {
-		String id = memberInfo.getMemberId();
+		String memberId = memberInfo.getMemberId();
 		
-		int result = MemberDAO.getInstance().nowDv(memberInfo);
-		System.out.println(result);
+		List<Member> list = MemberDAO.getInstance().getMemberDv(memberId);
+		System.out.println("============");
+		System.out.println("필름인화 상태");
+		System.out.println("============");
+		for(int i=0; i<list.size();i++) {
+			System.out.print(list.get(i).getMemberDv() + "\t\t");
+			System.out.println();
+		}
+		System.out.println("============");
 	}
 		
 		

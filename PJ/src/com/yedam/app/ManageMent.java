@@ -68,6 +68,8 @@ public class ManageMent {
 					ms.nowDv();
 				}else if(menu == 4) {
 					
+				}else if(menu == 5) {
+					
 				}else if(menu == 99) {
 					ms.logout();
 					break;
@@ -82,6 +84,8 @@ public class ManageMent {
 						ms.nowDv();
 					}else if(menu == 4) {
 						
+					}else if(menu == 5) {
+						
 					}else if(menu == 99) {
 						ms.logout();
 						break;
@@ -95,9 +99,9 @@ public class ManageMent {
 		if(MemberService.memberInfo.getMemberGrade().equals("A")) {
 			System.out.println("1. 회원 등록 | 2.회원 조회 | 3. 회원 정보 수정 | 4. 인화 및 배송 정보 변경 | 5. 게시판 관리 | 99. 로그아웃");
 		}else if(MemberService.memberInfo.getMemberGrade().equals("B")) {
-			System.out.println("1. 비밀번호 수정 | 2. 활동명 수정 | 3. 인화 현황 조회 | 4. 게시판 접근 | 99. 로그 아웃");
+			System.out.println("1. 비밀번호 수정 | 2. 활동명 수정 | 3. 인화 현황 조회 | 4. 탈퇴 | 5. 게시판 접근 | 99. 로그 아웃");
 		}else if(MemberService.memberInfo.getMemberGrade().equals("C")) {
-			System.out.println("1. 비밀번호 수정 | 2. 활동명 수정 | 3. 인화 현황 조회 | 4. 게시판 접근 | 99. 로그 아웃");
+			System.out.println("1. 비밀번호 수정 | 2. 활동명 수정 | 3. 인화 현황 조회 | 4. 탈퇴 | 5. 게시판 접근 | 99. 로그 아웃");
 		}
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());

@@ -341,30 +341,78 @@ public class MemberDAO extends DAO{
 		return result;
 	}
 	
-	public int nowDv(Member member) {
-		int result = 0;
+//	public int nowDv(Member member) {
+//		int result = 0;
+//		
+//		try {
+//			conn();
+//			String sql = "select member_dv from member where member_id = ?";
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+//			
+//			result = pstmt.executeUpdate();
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}finally {
+//			disconn();
+//		}
+//		
+//		return result;
+//	}
+	
+//	public Member nowDv(String memberId) {
+//		Member mem = null;
+//		
+//		try {
+//			conn();
+//			String sql = "select member_dv from member where member_id = ?";
+//			
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+//			
+//			rs = pstmt.executeQuery();
+//			if(rs.next()) {
+//				mem = new Member();
+//				mem.setMemberId(rs.getString("member_id"));
+//				mem.setMemberDv(rs.getString("member_dv"));
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			disconn();
+//		}
+//		return mem;
+//	}
+	
+	
+	public Member nowDv(String memberId) {
+		Member mem = null;
 		
 		try {
 			conn();
 			String sql = "select member_dv from member where member_id = ?";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
 			
-			result = pstmt.executeUpdate();
-			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				mem = new Member();
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setMemberPw(rs.getString("member_pw"));
+				mem.setMemberName(rs.getString("member_name"));
+				mem.setMemberFname(rs.getString("member_fname"));
+				mem.setMemberDv(rs.getString("member_dv"));
+				mem.setMemberGrade(rs.getString("member_grade"));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconn();
 		}
-		
-		return result;
+		return mem;
 	}
-	
-	
-	
-	
-	
 	
 	
 	
