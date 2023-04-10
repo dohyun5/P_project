@@ -2,11 +2,12 @@ package com.yedam.app;
 
 import java.util.Scanner;
 
+import com.yedam.member.MemberService;
+
 public class Application {
 	
 	Scanner sc = new Scanner(System.in);
-	
-	CustomerService cs = new CustomerService();
+	MemberService ms = new MemberService();
 	int menuNo = 0;
 
 	public Application() {
@@ -18,8 +19,8 @@ public class Application {
 			System.out.println("1. 로그인 | 2. 종료");
 			menuNo = Integer.parseInt(sc.nextLine());
 			if(menuNo == 1) {
-				cs.login();
-				if(CustomerService.customerInfo != null) {
+				ms.login();
+				if(MemberService.memberInfo != null) {
 					new ManageMent();
 				}
 			}else if(menuNo == 2) {
