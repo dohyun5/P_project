@@ -303,18 +303,8 @@ public class MemberService {
 	public void nowDv() {
 		String id = memberInfo.getMemberId();
 		
-		Member member = new Member();
-		member.setMemberId(id);
-		int result = MemberDAO.getInstance().memberPwUpdate(member);
-		if(result > 0) {
-			if(id.equals(memberInfo.getMemberId())) {
-				memberInfo = MemberDAO.getInstance().login(id);
-			}System.out.println("조회 성공");
-		}else {
-			System.out.println("조회 실패");
-		}
-		
-		
+		int result = MemberDAO.getInstance().nowDv(memberInfo);
+		System.out.println(result);
 	}
 		
 		
