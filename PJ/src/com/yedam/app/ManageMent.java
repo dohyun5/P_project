@@ -77,9 +77,20 @@ public class ManageMent {
 								}else if(menu == 2) {
 									bs.boardAdd();
 								}else if(menu == 3) {
-									
+									while(true) {
+										boardEdit();
+										if(menu == 1) {
+											bs.boardTitleEdit();
+											break;
+										}else if (menu == 2) {
+											bs.boardContentEdit();
+											break;
+										}else if (menu == 3) {
+											break;
+										}
+									}
 								}else if(menu == 4) {
-									
+									bs.boardDelete();
 								}else if(menu == 5) {
 									break;
 								}
@@ -286,6 +297,11 @@ public class ManageMent {
 		menu = Integer.parseInt(sc.nextLine());
 	}
 	
+	public void boardEdit() {
+		System.out.println("1. 제목 수정 | 2. 내용 수정 | 3. 수정 취소 ");
+		System.out.println("입력 > ");
+		menu = Integer.parseInt(sc.nextLine());
+	}
 	
 	private void tradeBoardMenu() {
 		System.out.println("==================중고 거래 게시판==================");

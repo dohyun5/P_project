@@ -2,6 +2,7 @@ package com.yedam.board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import com.yedam.common.DAO;
 import com.yedam.member.MemberService;
@@ -55,7 +56,7 @@ private static BoardDAO boardDao = new BoardDAO();
 
 		try {
 			conn();
-			String sql = "select * from board";
+			String sql = "select * from board ORDER BY board_no";
 			stmt = conn.createStatement();
 			
 			rs = stmt.executeQuery(sql);
@@ -85,9 +86,10 @@ private static BoardDAO boardDao = new BoardDAO();
 	public Board getBoardContent(int boardNo) {
 		Board bd = null;
 		
-		try {
+		try { 
 			conn();
 			String sql = "select * from board where board_no = ?";
+			//String sql2 = "update board set board_views = SELECT NVL(board_views,0)+1 where board_no = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
 			
@@ -103,8 +105,6 @@ private static BoardDAO boardDao = new BoardDAO();
 				bd.setBoardDate(rs.getDate("board_date"));
 				bd.setBoardViews(rs.getInt("board_views"));
 			}
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -114,12 +114,74 @@ private static BoardDAO boardDao = new BoardDAO();
 		
 	}
 	
+	public void boardTitleEdit(Board board) {
+		int result = 0;
+		
+		try {
+			conn();
+			String sql = "update board set board_title = ? where board_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getBoardTitle());
+			pstmt.setInt(2, board.getBoardNo());
+			
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("수정 성공");
+			}else {
+				System.out.println("수정 실패");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+	}
 	
+	public void boardContentEdit(Board board) {
+		int result = 0;
+		
+		try {
+			conn();
+			String sql = "update board set board_content = ? where board_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getBoardContent());
+			pstmt.setInt(2, board.getBoardNo());
+			
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("수정 성공");
+			}else {
+				System.out.println("수정 실패");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+	}
 	
-	
-	
-	
-	
+	public int boardDelete(int boardNo) {
+		int result = 0;
+			
+		try {
+			conn();
+			String sql = "delete from board where board_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		
+		return result;
+	}
 	
 	
 	
