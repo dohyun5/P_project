@@ -16,6 +16,7 @@ public class Application {
 	
 	private void run() {
 		while(true) {
+			MemberService.memberInfo = null;
 			System.out.println("1. 로그인 | 2. 종료");
 			menuNo = Integer.parseInt(sc.nextLine());
 			if(menuNo == 1) {

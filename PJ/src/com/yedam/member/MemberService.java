@@ -9,6 +9,7 @@ public class MemberService {
 	Scanner sc = new Scanner(System.in);
 	
 	public void login() {
+		
 		Member member = new Member();
 		
 		System.out.println("ID > ");
@@ -21,8 +22,7 @@ public class MemberService {
 		
 		if(member != null) {
 			if(pw.equals(member.getMemberPw())) {
-				System.out.println("로그인 성공");
-				System.out.println("Hello" + member.getMemberFname() + "님");
+				System.out.println("Hello " + member.getMemberFname() + "!!");
 				memberInfo = member;
 			}else {
 				System.out.println("PW 오류");
@@ -82,9 +82,9 @@ public class MemberService {
 		
 		public void getMemberList() {
 			List<Member> list = MemberDAO.getInstance().getMemberList();
-			System.out.println("====================================================");
-			System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t등급");
-			System.out.println("====================================================");
+			System.out.println("========================================================");
+			System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t회원 등급");
+			System.out.println("========================================================");
 			for(int i=0; i<list.size();i++) {
 				System.out.print(list.get(i).getMemberId() + "\t");
 				System.out.print(list.get(i).getMemberPw() + "\t");
@@ -94,7 +94,7 @@ public class MemberService {
 				System.out.print(list.get(i).getMemberGrade());
 				System.out.println();
 			}
-			System.out.println("====================================================");
+			System.out.println("========================================================");
 		}
 		
 		public void getMember() {
@@ -103,8 +103,8 @@ public class MemberService {
 			Member mem = MemberDAO.getInstance().getMember(memberId);
 			
 			if(mem != null) {
-				System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t등급");
-				System.out.println("====================================================");
+				System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t회원 등급");
+				System.out.println("========================================================");
 				System.out.print(mem.getMemberId()+ "\t");
 				System.out.print(mem.getMemberPw()+ "\t");
 				System.out.print(mem.getMemberName()+ "\t");
@@ -113,16 +113,16 @@ public class MemberService {
 				System.out.print(mem.getMemberGrade());
 				System.out.println();
 			}
-			
+			System.out.println("========================================================");
 		}
 		
 		public void getMemberG() {
 			System.out.println("조회할 등급 > ");
 			String memberGrade = sc.nextLine();
 			List<Member> list = MemberDAO.getInstance().getMemberG(memberGrade);
-			System.out.println("====================================================");
-			System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t등급");
-			System.out.println("====================================================");
+			System.out.println("========================================================");
+			System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t회원 등급");
+			System.out.println("========================================================");
 			for(int i=0; i<list.size();i++) {
 				System.out.print(list.get(i).getMemberId() + "\t");
 				System.out.print(list.get(i).getMemberPw() + "\t");
@@ -132,7 +132,7 @@ public class MemberService {
 				System.out.print(list.get(i).getMemberGrade());
 				System.out.println();
 			}
-			System.out.println("====================================================");
+			System.out.println("========================================================");
 			
 			
 		}
@@ -141,9 +141,9 @@ public class MemberService {
 			System.out.println("검색 조건 > ");
 			String memberDv = sc.nextLine();
 			List<Member> list = MemberDAO.getInstance().getMemberDv(memberDv);
-			System.out.println("====================================================");
-			System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t등급");
-			System.out.println("====================================================");
+			System.out.println("========================================================");
+			System.out.println("ID\tPW\tName\tFname\t필름인화 상태\t회원 등급");
+			System.out.println("========================================================");
 			for(int i=0; i<list.size();i++) {
 				System.out.print(list.get(i).getMemberId() + "\t");
 				System.out.print(list.get(i).getMemberPw() + "\t");
@@ -153,7 +153,7 @@ public class MemberService {
 				System.out.print(list.get(i).getMemberGrade());
 				System.out.println();
 			}
-			System.out.println("====================================================");
+			System.out.println("========================================================");
 			
 			
 		}
@@ -252,12 +252,20 @@ public class MemberService {
 		
 	public void memberPwUpdate2() {
 		String id = memberInfo.getMemberId();
+		while(true) {
+			System.out.println("현재 비밀번호 입력 >");
+			String oldPw = sc.nextLine();
+			if(oldPw.equals(memberInfo.getMemberPw())) {
+				break;
+			}else {
+				System.out.println("비밀번호가 다릅니다.");
+			}
+		}
 		System.out.println("변경할 비밀번호 입력 > ");
-		String pw = sc.nextLine();
-		
+		String newPw = sc.nextLine();
 		Member member = new Member();
 		member.setMemberId(id);
-		member.setMemberPw(pw);
+		member.setMemberPw(newPw);
 		int result = MemberDAO.getInstance().memberPwUpdate(member);
 		if(result > 0) {
 			if(id.equals(memberInfo.getMemberId())) {
@@ -266,8 +274,6 @@ public class MemberService {
 		}else {
 			System.out.println("PW 변경 실패");
 		}
-		
-		
 	}
 	
 	public void memberFnameUpdate2() {
@@ -303,16 +309,66 @@ public class MemberService {
 	public void nowDv() {
 		String memberId = memberInfo.getMemberId();
 		
-		List<Member> list = MemberDAO.getInstance().getMemberDv(memberId);
-		System.out.println("============");
-		System.out.println("필름인화 상태");
-		System.out.println("============");
-		for(int i=0; i<list.size();i++) {
-			System.out.print(list.get(i).getMemberDv() + "\t\t");
-			System.out.println();
+		Member mem = MemberDAO.getInstance().getMember(memberId);
+		
+		if(mem != null) {
+			//System.out.println("ID\tName\t필름인화 상태\t회원 등급");
+			System.out.println("=========================================");
+			System.out.println("     " + mem.getMemberFname()+"님의 진행 상태는 "+ mem.getMemberDv()+ " 입니다.");
+			//System.out.print(mem.getMemberName()+ "\t");
+			//System.out.print(mem.getMemberDv()+ "\t\t");
+			//System.out.print(mem.getMemberGrade());
+			//System.out.println();
 		}
-		System.out.println("============");
+		System.out.println("=========================================");
 	}
+		
+	public void memberDelete() {
+		System.out.println("삭제할 ID > ");
+		String memberId = sc.nextLine();
+		int result = MemberDAO.getInstance().memberDelete(memberId);
+		
+		if(result > 0) {
+			System.out.println("삭제 완료");
+		}else {
+			System.out.println("삭제 실패");
+		}
+	}
+		
+		public void memberDelete2() {
+			String memberId = memberInfo.getMemberId();
+			int result = MemberDAO.getInstance().memberDelete(memberId);
+			
+			if(result > 0) {
+				System.out.println("삭제 완료");
+				
+			}else {
+				System.out.println("삭제 실패");
+			}
+		}
+		
+		public void getMemberMe() {
+			String memberId = memberInfo.getMemberId();
+			Member mem = MemberDAO.getInstance().getMember(memberId);
+			
+			if(mem != null) {
+				System.out.println("ID\tName\tFname\t필름인화 상태\t회원 등급");
+				System.out.println("================================================");
+				System.out.print(mem.getMemberId()+ "\t");
+				System.out.print(mem.getMemberName()+ "\t");
+				System.out.print(mem.getMemberFname()+ "\t");
+				System.out.print(mem.getMemberDv()+ "\t\t");
+				System.out.print(mem.getMemberGrade());
+				System.out.println();
+			}
+			System.out.println("================================================");
+		}
+		
+		
+		
+		
+		
+		
 		
 		
 		

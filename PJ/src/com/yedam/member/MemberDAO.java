@@ -70,6 +70,10 @@ public class MemberDAO extends DAO{
 		
 	}
 	
+	
+	
+	
+	
 	public void memberAdd(Member member) {
 		int result = 0;
 		
@@ -95,7 +99,6 @@ public class MemberDAO extends DAO{
 		} finally {
 			disconn();
 		}
-		
 		
 	}
 	
@@ -132,7 +135,6 @@ public class MemberDAO extends DAO{
 	
 	public Member getMember(String memberId) {
 		Member mem = null;
-		
 		try {
 			conn();
 			String sql = "select * from member where member_id = ?";
@@ -341,51 +343,6 @@ public class MemberDAO extends DAO{
 		return result;
 	}
 	
-//	public int nowDv(Member member) {
-//		int result = 0;
-//		
-//		try {
-//			conn();
-//			String sql = "select member_dv from member where member_id = ?";
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, MemberService.memberInfo.getMemberId());
-//			
-//			result = pstmt.executeUpdate();
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}finally {
-//			disconn();
-//		}
-//		
-//		return result;
-//	}
-	
-//	public Member nowDv(String memberId) {
-//		Member mem = null;
-//		
-//		try {
-//			conn();
-//			String sql = "select member_dv from member where member_id = ?";
-//			
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, MemberService.memberInfo.getMemberId());
-//			
-//			rs = pstmt.executeQuery();
-//			if(rs.next()) {
-//				mem = new Member();
-//				mem.setMemberId(rs.getString("member_id"));
-//				mem.setMemberDv(rs.getString("member_dv"));
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			disconn();
-//		}
-//		return mem;
-//	}
-	
-	
 	public Member nowDv(String memberId) {
 		Member mem = null;
 		
@@ -414,11 +371,68 @@ public class MemberDAO extends DAO{
 		return mem;
 	}
 	
+	public int memberDelete(String memberId) {
+		int result = 0;
+		try {
+			conn();
+			String sql = "delete from member where member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return result;
+	}
 	
+	public int memberDelete2() {
+		int result = 0;
+		try {
+			conn();
+			String sql = "delete from member where member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return result;
+	}
 	
-	
-	
-	
+	public Member getMemberMe(String memberId) {
+		Member mem = null;
+		
+		try {
+			conn();
+			String sql = "select * from member where member_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				mem = new Member();
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setMemberPw(rs.getString("member_pw"));
+				mem.setMemberName(rs.getString("member_name"));
+				mem.setMemberFname(rs.getString("member_fname"));
+				mem.setMemberDv(rs.getString("member_dv"));
+				mem.setMemberGrade(rs.getString("member_grade"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return mem;
+	}
 	
 	
 	
