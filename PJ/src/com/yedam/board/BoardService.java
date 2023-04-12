@@ -64,9 +64,12 @@ public class BoardService {
 		Board bd = BoardDAO.getInstance().getBoardContent(boardNo);
 		System.out.println("=====================================");
 		System.out.println("            "+ bd.getBoardTitle());
-		System.out.println(bd.getBoardNo()+ "      " + bd.getMemberFname()+bd.getBoardDate()+bd.getBoardViews());
+		System.out.println("|"+bd.getBoardNo()+ "\t\t" +"| "+ bd.getMemberFname()+"| "+bd.getBoardDate()+"| "+bd.getBoardViews());
 		System.out.println("=====================================");
-		System.out.println(" " +bd.getBoardContent());
+		System.out.println("\t" +bd.getBoardContent());
+		System.out.println();
+		System.out.println();
+		System.out.println();
 		System.out.println("=====================================");
 		br.getBoardRepList();
 	}
@@ -76,6 +79,8 @@ public class BoardService {
 	public void boardTitleEdit() {
 		System.out.println("제목 수정할 글 번호 입력 >  ");
 		int boardNo = Integer.parseInt(sc.nextLine());
+		if (MemberService.memberInfo.getMemberGrade().equals("A")||BoardDAO.getInstance().getBoardContent(boardNo).getMemberId().equals(MemberService.memberInfo.getMemberId())) {
+			
 		System.out.println("수정할 제목 입력 > ");
 		String boardTitle = sc.nextLine();
 		
@@ -84,27 +89,34 @@ public class BoardService {
 		board.setBoardTitle(boardTitle);
 		
 		BoardDAO.getInstance().boardTitleEdit(board);
+		}else {
+			System.out.println("본인만 가능");
+		}
 		
 	}
 	
 	public void boardContentEdit() {
 		System.out.println("내용 수정할 글 번호 입력 >  ");
 		int boardNo = Integer.parseInt(sc.nextLine());
-		System.out.println("수정할 내용 입력 > ");
-		String boardContent = sc.nextLine();
-		
-		Board board = new Board();
-		board.setBoardNo(boardNo);
-		board.setBoardContent(boardContent);
-		
+		if(MemberService.memberInfo.getMemberGrade().equals("A") || BoardDAO.getInstance().getBoardContent(boardNo).getMemberId().equals(MemberService.memberInfo.getMemberId())){
+			System.out.println("수정할 내용 입력 > ");
+			String boardContent = sc.nextLine();
+			
+			Board board = new Board();
+			board.setBoardNo(boardNo);
+			board.setBoardContent(boardContent);
+			
+			BoardDAO.getInstance().boardContentEdit(board);
+		}else {
+			System.out.println("본인만 가능");
+		}
+	}
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(수정됨)");
 //		Date boardDate = sdf.format(boardInfo.getBoardDate());
 //		board.setBoardDate(boardDate);
 		
 		
-		BoardDAO.getInstance().boardContentEdit(board);
 		
-	}
 	
 	public void boardDelete() {
 		
@@ -112,40 +124,15 @@ public class BoardService {
 		int boardNo = Integer.parseInt(sc.nextLine());
 		
 		if(MemberService.memberInfo.getMemberGrade().equals("A") || BoardDAO.getInstance().getBoardContent(boardNo).getMemberId().equals(MemberService.memberInfo.getMemberId())) {
+			BoardDAO.getInstance().boardDelete(boardNo);
 			System.out.println("삭제 완료");
 		}else {
-			System.out.println("삭제 실패");
+			System.out.println("본인만 가능");
 		}
-		BoardDAO.getInstance().boardDelete(boardNo);
 	}
-//		if(result > 0) {
-//			System.out.println("삭제 완료");
-//		}else {
-//			System.out.println("삭제 실패");
-//		}
-//	}
+
 	
-	public void boardContentEdit2() {
-		
-		System.out.println("내용 수정할 글 번호 입력 >  ");
-		int boardNo = Integer.parseInt(sc.nextLine());
-		System.out.println("수정할 내용 입력 > ");
-		String boardContent = sc.nextLine();
-		
-		Board board = new Board();
-		board.setBoardNo(boardNo);
-		board.setBoardContent(boardContent);
-		BoardDAO.getInstance().boardContentEdit(board);
-			
-		
-		
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(수정됨)");
-//		Date boardDate = sdf.format(boardInfo.getBoardDate());
-//		board.setBoardDate(boardDate);
-		
-		
-		
-	}
+	
 	
 	
 	

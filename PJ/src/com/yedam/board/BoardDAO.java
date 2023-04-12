@@ -94,6 +94,7 @@ private static BoardDAO boardDao = new BoardDAO();
 			pstmt = conn.prepareStatement(sql2);
 			pstmt.setInt(1, boardNo);
 			int result = pstmt.executeUpdate();
+			
 			if(rs.next()) {
 				bd = new Board();
 				bd.setBoardNo(rs.getInt("board_no"));
@@ -172,7 +173,7 @@ private static BoardDAO boardDao = new BoardDAO();
 			String sql2 = "UPDATE board SET board_no = board_no - 1 WHERE board_no > ?";
 			pstmt = conn.prepareStatement(sql2);
 			pstmt.setInt(1, boardNo);
-			result = pstmt.executeUpdate();
+			//result = pstmt.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
