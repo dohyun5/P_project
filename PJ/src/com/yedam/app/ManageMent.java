@@ -3,7 +3,9 @@ package com.yedam.app;
 import java.util.Scanner;
 
 import com.yedam.board.BoardService;
+import com.yedam.board.BoardrepService;
 import com.yedam.member.MemberService;
+import com.yedam.tradeBoard.TradeBoardService;
 
 
 public class ManageMent {
@@ -11,6 +13,10 @@ public class ManageMent {
 	int menu = 0;
 	MemberService ms = new MemberService();
 	BoardService bs = new BoardService();
+	TradeBoardService ts = new TradeBoardService();
+	BoardrepService br = new BoardrepService();
+	
+	
 	
 	public ManageMent() {
 		userOrMgr();
@@ -61,15 +67,17 @@ public class ManageMent {
 							while(true) {
 								boardMenu();
 								if(menu == 1) {
+									bs.getBoardContent();
 									while(true) {
-										bs.getBoardContent();
+										bs.getBoardContent2();
 										replyMenu();
 										if(menu == 1) {
-											
+											bs.getBoardContent2();
+											br.boardRepAdd();
 										}else if(menu == 2) {
-											
+											br.boardRepContentEdit();
 										}else if(menu == 3) {
-											
+											br.boardRepDelete();
 										}else if(menu == 4) {
 											break;
 										}
@@ -100,6 +108,7 @@ public class ManageMent {
 								tradeBoardMenu();
 								if(menu == 1) {
 									while(true) {
+										ts.getBoardContent();
 										replyMenu();
 										if(menu == 1) {
 											
@@ -112,11 +121,22 @@ public class ManageMent {
 										}
 									}	
 								}else if(menu == 2) {
-									
+									ts.boardAdd();
 								}else if(menu == 3) {
-									
+									while(true) {
+										boardEdit();
+										if(menu == 1) {
+											ts.boardTitleEdit();
+											break;
+										}else if (menu == 2) {
+											ts.boardContentEdit();
+											break;
+										}else if (menu == 3) {
+											break;
+										}
+									}
 								}else if(menu == 4) {
-									
+									ts.boardDelete();
 								}else if(menu == 5) {
 									break;
 								}
@@ -150,7 +170,7 @@ public class ManageMent {
 								boardMenu();
 								if(menu == 1) {
 									while(true) {
-										
+										bs.getBoardContent();
 										replyMenu();
 										if(menu == 1) {
 											
@@ -165,9 +185,20 @@ public class ManageMent {
 								}else if(menu == 2) {
 									bs.boardAdd();
 								}else if(menu == 3) {
-									
+									while(true) {
+										boardEdit();
+										if(menu == 1) {
+											bs.boardTitleEdit();
+											break;
+										}else if (menu == 2) {
+											bs.boardContentEdit2();
+											break;
+										}else if (menu == 3) {
+											break;
+										}
+									}
 								}else if(menu == 4) {
-									
+									bs.boardDelete();
 								}else if(menu == 5) {
 									break;
 								}
@@ -176,25 +207,36 @@ public class ManageMent {
 							while(true) {
 								tradeBoardMenu();
 								if(menu == 1) {
-									
-//									while(true) {
-//										replyMenu();
-//										if(menu == 1) {
-//											
-//										}else if(menu == 2) {
-//											
-//										}else if(menu == 3) {
-//											
-//										}else if(menu == 4) {
-//											break;
-//										}
-//									}
+									while(true) {
+										ts.getBoardContent();
+										replyMenu();
+										if(menu == 1) {
+											
+										}else if(menu == 2) {
+											
+										}else if(menu == 3) {
+											
+										}else if(menu == 4) {
+											break;
+										}
+									}
 								}else if(menu == 2) {
-									bs.boardAdd();
+									ts.boardAdd();
 								}else if(menu == 3) {
-									
+									while(true) {
+										boardEdit();
+										if(menu == 1) {
+											ts.boardTitleEdit();
+											break;
+										}else if (menu == 2) {
+											ts.boardContentEdit();
+											break;
+										}else if (menu == 3) {
+											break;
+										}
+									}
 								}else if(menu == 4) {
-									
+									ts.boardDelete();
 								}else if(menu == 5) {
 									break;
 								}
@@ -226,6 +268,7 @@ public class ManageMent {
 							boardMenu();
 							if(menu == 1) {
 								while(true) {
+									bs.getBoardContent();
 									replyMenu();
 									if(menu == 1) {
 										
@@ -238,9 +281,20 @@ public class ManageMent {
 									}
 								}
 							}else if(menu == 2) {
-								
+								bs.boardAdd();
 							}else if(menu == 3) {
-								
+								while(true) {
+									boardEdit();
+									if(menu == 1) {
+										bs.boardTitleEdit();
+										break;
+									}else if (menu == 2) {
+										bs.boardContentEdit();
+										break;
+									}else if (menu == 3) {
+										break;
+									}
+								}
 							}else if(menu == 4) {
 								
 							}else if(menu == 5) {
@@ -304,15 +358,20 @@ public class ManageMent {
 	}
 	
 	private void tradeBoardMenu() {
-		System.out.println("==================중고 거래 게시판==================");
+		System.out.println("==================중고 거래 게시판=====================");
 		System.out.println("|글번호\t|제목\t\t|작성자\t|게시일\t|조회수");
-		System.out.println("================================================");
+		System.out.println("===================================================");
+		ts.getTradeBoardList();
+		System.out.println("====================================================");
 		System.out.println("1. 게시글 보기 | 2. 게시글 작성 | 3. 게시글 수정 | 4. 게시글 삭제 | 5. 상위 메뉴");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
 	}
 	
 	private void replyMenu() {
+//		System.out.println("=========================댓글========================");
+//		br.getBoardRepList();
+		//System.out.println("====================================================");
 		System.out.println("1. 댓글 작성 | 2. 댓글 수정 | 3. 댓글 삭제 | 4. 목록으로 돌아가기");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());

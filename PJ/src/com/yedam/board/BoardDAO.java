@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import com.yedam.common.DAO;
 import com.yedam.member.MemberService;
+import com.yedam.tradeBoard.TradeBoard;
 
 public class BoardDAO extends DAO{
 	
@@ -77,33 +78,31 @@ private static BoardDAO boardDao = new BoardDAO();
 		}finally {
 			disconn();
 		}
-		
 		return list;
-		
-		
 	}
 	
 	public Board getBoardContent(int boardNo) {
 		Board bd = null;
-		
 		try { 
 			conn();
 			String sql = "select * from board where board_no = ?";
-			//String sql2 = "update board set board_views = SELECT NVL(board_views,0)+1 where board_no = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
-			
 			rs = pstmt.executeQuery();
 			
+			String sql2 = "update board set board_views = board_views+1 where board_no = ?";
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setInt(1, boardNo);
+			int result = pstmt.executeUpdate();
 			if(rs.next()) {
 				bd = new Board();
-				
 				bd.setBoardNo(rs.getInt("board_no"));
 				bd.setBoardTitle(rs.getString("board_title"));
 				bd.setMemberFname(rs.getString("member_fname"));
 				bd.setBoardContent(rs.getString("board_content"));
 				bd.setBoardDate(rs.getDate("board_date"));
 				bd.setBoardViews(rs.getInt("board_views"));
+				bd.setMemberId(rs.getString("member_id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,7 +146,6 @@ private static BoardDAO boardDao = new BoardDAO();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getBoardContent());
 			pstmt.setInt(2, board.getBoardNo());
-			
 			result = pstmt.executeUpdate();
 			
 			if(result == 1) {
@@ -164,16 +162,18 @@ private static BoardDAO boardDao = new BoardDAO();
 	
 	public int boardDelete(int boardNo) {
 		int result = 0;
-			
 		try {
 			conn();
 			String sql = "delete from board where board_no = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardNo);
-			
 			result = pstmt.executeUpdate();
 			
-		
+			String sql2 = "UPDATE board SET board_no = board_no - 1 WHERE board_no > ?";
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setInt(1, boardNo);
+			result = pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -182,6 +182,43 @@ private static BoardDAO boardDao = new BoardDAO();
 		
 		return result;
 	}
+	
+	public void boardContentEdit2(Board board) {
+		int result = 0;
+		
+		try {
+			conn();
+			String sql2 = "select ";
+			
+			
+			String sql = "update board set board_content = ? where board_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getBoardContent());
+			pstmt.setInt(2, board.getBoardNo());
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("수정 성공");
+			}else {
+				System.out.println("수정 실패");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
