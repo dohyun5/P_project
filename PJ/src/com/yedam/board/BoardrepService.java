@@ -9,7 +9,6 @@ public class BoardrepService {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	
 	public void getBoardRepList() {
 		int boardNo = BoardService.boardInfo.getBoardNo();
 		List<Boardrep> list = BoardrepDAO.getInstance().getBoardList(boardNo);
@@ -37,15 +36,12 @@ public class BoardrepService {
 		boardrep.setRepContent(boardRepContent);
 		
 		BoardrepDAO.getInstance().boardrepAdd(boardrep);
-		
-		
-		
-		
 	}
 		
 	public void boardRepContentEdit() {
 		System.out.println("수정할 댓글 번호 입력 > ");
 		int repNo = Integer.parseInt(sc.nextLine());
+		if(MemberService.memberInfo.getMemberGrade().equals("A") || BoardrepDAO.getInstance().boardRepCheck(repNo).getMemberId().equals(MemberService.memberInfo.getMemberId())) {
 			
 		System.out.println("수정할 내용 입력 > ");
 		String boardRepContent = sc.nextLine();
@@ -55,18 +51,25 @@ public class BoardrepService {
 		boardrep.setRepContent(boardRepContent);
 		
 		BoardrepDAO.getInstance().boardRepContentEdit(boardrep);
+		}else {
+			System.out.println("본인만 가능");
 		}
+	}
 		
 	
 	public void boardRepDelete() {
 		System.out.println("삭제할 댓글 번호 입력 > ");
 		int repNo = Integer.parseInt(sc.nextLine());
-		
-		int result = BoardrepDAO.getInstance().boardRepDelete(repNo);
-		if(result > 0) {
-			System.out.println("삭제 완료");
+		//int boardNo = BoardService.boardInfo.getBoardNo();
+		if(MemberService.memberInfo.getMemberGrade().equals("A")|| BoardrepDAO.getInstance().boardRepCheck(repNo).getMemberId().equals(MemberService.memberInfo.getMemberId())) {
+			int result = BoardrepDAO.getInstance().boardRepDelete(repNo);
+			if(result > 0) {
+				System.out.println("삭제 완료");
+			}else {
+				System.out.println("삭제 실패");
+			}
 		}else {
-			System.out.println("삭제 실패");
+			System.out.println("본인만 가능");
 		}
 	}
 	

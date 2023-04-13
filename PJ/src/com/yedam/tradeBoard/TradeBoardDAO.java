@@ -41,6 +41,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 				bd.setBoardContent(rs.getString("board_content"));
 				bd.setBoardDate(rs.getDate("board_date"));
 				bd.setBoardViews(rs.getInt("board_views"));
+				bd.setTradeIng(rs.getString("trade_ing"));
 				list.add(bd);
 			}
 		} catch (Exception e) {
@@ -59,7 +60,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 		
 		try {
 			conn();
-			String sql = "insert into tradeboard values (?,?,?,(SELECT NVL(MAX(board_no)+1,1) FROM tradeboard),?,?,sysdate,0)";
+			String sql = "insert into tradeboard values (?,?,?,(SELECT NVL(MAX(board_no)+1,1) FROM tradeboard),?,?,sysdate,0,'판매중')";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
 			pstmt.setString(2, MemberService.memberInfo.getMemberFname());
@@ -178,9 +179,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 			String sql2 = "UPDATE tradeboard SET board_no = board_no - 1 WHERE board_no > ?";
 			pstmt = conn.prepareStatement(sql2);
 			pstmt.setInt(1, boardNo);
-			pstmt.executeUpdate();
-		
-			
+			//pstmt.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,6 +191,70 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 	}
 	
 	
+	public List<TradeBoard> getTradeBoardList2(){
+		List<TradeBoard> list = new ArrayList<>();
+		TradeBoard bd = null;
+
+		try {
+			conn();
+			String sql = "select * from tradeboard where member_id = ? ORDER BY board_no";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				bd = new TradeBoard();
+				bd.setMemberId(rs.getString("member_id"));
+				bd.setMemberFname(rs.getString("member_fname"));
+				bd.setMemberGrade(rs.getString("member_Grade"));
+				bd.setBoardNo(rs.getInt("board_no"));
+				bd.setBoardTitle(rs.getString("board_title"));
+				bd.setBoardContent(rs.getString("board_content"));
+				bd.setBoardDate(rs.getDate("board_date"));
+				bd.setBoardViews(rs.getInt("board_views"));
+				bd.setTradeIng(rs.getString("trade_ing"));
+				list.add(bd);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	
+//	public void updateTrade() {
+//		
+//		try {
+//			conn();
+//			String sql = "update tradeboard set board_title = board_title + ? where board_no = ?";
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, tradeIng);
+//			pstmt.setInt(2, boardNo);
+//			result = pstmt.executeUpdate();
+//			
+//			
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}finally {
+//			disconn();
+//		}
+//	}
 	
 	
 	

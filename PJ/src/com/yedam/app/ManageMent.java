@@ -6,6 +6,7 @@ import com.yedam.board.BoardService;
 import com.yedam.board.BoardrepService;
 import com.yedam.member.MemberService;
 import com.yedam.tradeBoard.TradeBoardService;
+import com.yedam.tradeBoard.TradeBoardrepService;
 
 
 public class ManageMent {
@@ -15,6 +16,7 @@ public class ManageMent {
 	BoardService bs = new BoardService();
 	TradeBoardService ts = new TradeBoardService();
 	BoardrepService br = new BoardrepService();
+	TradeBoardrepService tbs = new TradeBoardrepService();
 	
 	
 	
@@ -70,15 +72,23 @@ public class ManageMent {
 									bs.getBoardContent();
 									while(true) {
 										bs.getBoardContent2();
-										replyMenu();
+										replyMenu2();
 										if(menu == 1) {
-											bs.getBoardContent2();
-											br.boardRepAdd();
-										}else if(menu == 2) {
-											br.boardRepContentEdit();
-										}else if(menu == 3) {
-											br.boardRepDelete();
-										}else if(menu == 4) {
+											while(true) {
+												bs.getRep();
+												replyMenu();
+												if(menu == 1) {
+													//bs.getBoardContent2();
+													br.boardRepAdd();
+												}else if(menu == 2) {
+													br.boardRepContentEdit();
+												}else if(menu == 3) {
+													br.boardRepDelete();
+												}else if(menu == 4) {
+													break;
+												}
+											}
+										}else if (menu == 2) {
 											break;
 										}
 									}
@@ -107,19 +117,29 @@ public class ManageMent {
 							while(true) {
 								tradeBoardMenu();
 								if(menu == 1) {
+									ts.getBoardContent();
 									while(true) {
-										ts.getBoardContent();
-										replyMenu();
+										ts.getBoardContent2();
+										replyMenu2();
 										if(menu == 1) {
-											
-										}else if(menu == 2) {
-											
-										}else if(menu == 3) {
-											
-										}else if(menu == 4) {
+											while(true) {
+												ts.getRep();
+												replyMenu();
+												if(menu == 1) {
+													//bs.getBoardContent2();
+													tbs.tradeboardRepAdd();
+												}else if(menu == 2) {
+													tbs.tradeboardRepContentEdit();
+												}else if(menu == 3) {
+													tbs.tradeboardRepDelete();
+												}else if(menu == 4) {
+													break;
+												}
+											}
+										}else if (menu == 2) {
 											break;
 										}
-									}	
+									}
 								}else if(menu == 2) {
 									ts.boardAdd();
 								}else if(menu == 3) {
@@ -160,25 +180,47 @@ public class ManageMent {
 				}else if(menu == 4) {
 					ms.nowDv();
 				}else if(menu == 5) {
-					ms.memberDelete2();
-					break;
+					System.out.println("====================================================");
+					ts.tradeNow();
+					tradeIngMenu();
+					while(true) {
+						if(menu == 1) {
+							//정보 수정 - 판매할 사람 닉네임 선택 - 업데이트 해주면 - 본인 및 구매자는 조회 가능. //판매중 거래중 거래완료//
+							//공통적으로 가지는? 권한을 줘서 구매자 이름을 업데이트 해주고  
+							//구매목록 판매목록 ? 
+						}else if(menu == 2) {
+							break;
+						}
+					}
+					
 				}else if(menu == 6) {
+					
 					while(true) {
 						selectBoard();
 						if(menu == 1) {
 							while(true) {
 								boardMenu();
 								if(menu == 1) {
+									bs.getBoardContent();
 									while(true) {
-										bs.getBoardContent();
-										replyMenu();
+										bs.getBoardContent2();
+										replyMenu2();
 										if(menu == 1) {
-											
-										}else if(menu == 2) {
-											
-										}else if(menu == 3) {
-											
-										}else if(menu == 4) {
+											while(true) {
+												bs.getRep();
+												replyMenu();
+												if(menu == 1) {
+													//bs.getBoardContent2();
+													br.boardRepAdd();
+												}else if(menu == 2) {
+													br.boardRepContentEdit();
+												}else if(menu == 3) {
+													br.boardRepDelete();
+												}else if(menu == 4) {
+													break;
+												}
+											}
+										}else if (menu == 2) {
 											break;
 										}
 									}
@@ -191,7 +233,7 @@ public class ManageMent {
 											bs.boardTitleEdit();
 											break;
 										}else if (menu == 2) {
-											bs.boardContentEdit2();
+											bs.boardContentEdit();
 											break;
 										}else if (menu == 3) {
 											break;
@@ -207,16 +249,26 @@ public class ManageMent {
 							while(true) {
 								tradeBoardMenu();
 								if(menu == 1) {
+									ts.getBoardContent();
 									while(true) {
-										ts.getBoardContent();
-										replyMenu();
+										ts.getBoardContent2();
+										replyMenu2();
 										if(menu == 1) {
-											
-										}else if(menu == 2) {
-											
-										}else if(menu == 3) {
-											
-										}else if(menu == 4) {
+											while(true) {
+												ts.getRep();
+												replyMenu();
+												if(menu == 1) {
+													//bs.getBoardContent2();
+													tbs.tradeboardRepAdd();
+												}else if(menu == 2) {
+													tbs.tradeboardRepContentEdit();
+												}else if(menu == 3) {
+													tbs.tradeboardRepDelete();
+												}else if(menu == 4) {
+													break;
+												}
+											}
+										}else if (menu == 2) {
 											break;
 										}
 									}
@@ -246,6 +298,10 @@ public class ManageMent {
 						}
 						
 					}
+					
+				}else if(menu == 7) {
+					ms.memberDelete2();
+					break;
 				}else if(menu == 99) {
 					ms.logout();
 					break;
@@ -261,22 +317,29 @@ public class ManageMent {
 					}else if(menu == 4) {
 						ms.nowDv();
 					}else if(menu == 5) {
-						ms.memberDelete2();
-						break;
-					}else if(menu == 6) {
 						while(true) {
 							boardMenu();
 							if(menu == 1) {
+								bs.getBoardContent();
 								while(true) {
-									bs.getBoardContent();
-									replyMenu();
+									bs.getBoardContent2();
+									replyMenu2();
 									if(menu == 1) {
-										
-									}else if(menu == 2) {
-										
-									}else if(menu == 3) {
-										
-									}else if(menu == 4) {
+										while(true) {
+											bs.getRep();
+											replyMenu();
+											if(menu == 1) {
+												//bs.getBoardContent2();
+												br.boardRepAdd();
+											}else if(menu == 2) {
+												br.boardRepContentEdit();
+											}else if(menu == 3) {
+												br.boardRepDelete();
+											}else if(menu == 4) {
+												break;
+											}
+										}
+									}else if (menu == 2) {
 										break;
 									}
 								}
@@ -296,11 +359,15 @@ public class ManageMent {
 									}
 								}
 							}else if(menu == 4) {
-								
+								bs.boardDelete();
 							}else if(menu == 5) {
 								break;
 							}
 						}
+						
+					}else if(menu == 6) {
+						ms.memberDelete2();
+						break;
 					}else if(menu == 99) {
 						ms.logout();
 						break;
@@ -314,9 +381,9 @@ public class ManageMent {
 		if(MemberService.memberInfo.getMemberGrade().equals("A")) {
 			System.out.println("1. 회원 등록 | 2.회원 조회 | 3. 회원 정보 수정 | 4. 인화 및 배송 정보 변경 | 5. 게시판 관리 | 99. 로그아웃");
 		}else if(MemberService.memberInfo.getMemberGrade().equals("B")) {
-			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 현황 조회 | 5. 탈퇴 | 6. 게시판 접근 | 99. 로그 아웃");
+			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 현황 조회 | 5. 중고 거래 조회 | 6. 게시판 | 7. 탈퇴 | 99. 로그 아웃");
 		}else if(MemberService.memberInfo.getMemberGrade().equals("C")) {
-			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 현황 조회 | 5. 탈퇴 | 6. 게시판 접근 | 99. 로그 아웃");
+			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 현황 조회 | 5. 게시판 | 6. 탈퇴 | 99. 로그 아웃");
 		}
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
@@ -368,14 +435,48 @@ public class ManageMent {
 		menu = Integer.parseInt(sc.nextLine());
 	}
 	
+	
+	
+	
 	private void replyMenu() {
 //		System.out.println("=========================댓글========================");
 //		br.getBoardRepList();
 		//System.out.println("====================================================");
-		System.out.println("1. 댓글 작성 | 2. 댓글 수정 | 3. 댓글 삭제 | 4. 목록으로 돌아가기");
+		System.out.println("1. 댓글 작성 | 2. 댓글 수정 | 3. 댓글 삭제 | 4. 게시글로 돌아가기");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
 	}
+	
+	private void replyMenu2() {
+		System.out.println("1. 댓글보기 | 2. 목록 돌아가기");
+		System.out.println("입력 > ");
+		menu = Integer.parseInt(sc.nextLine());
+	}
+	
+	
+	
+	private void tradeIngMenu() {
+		System.out.println("====================================================");
+		System.out.println("1. 판매 상태 수정 | 2. 상위 메뉴");
+		System.out.println("입력 > ");
+		menu = Integer.parseInt(sc.nextLine());
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

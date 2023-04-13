@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data 
 
-public class Traderep {
+public class TradeBoardrep {
 	private String memberId;
 	private String memberFname;
 	private int repNo;

@@ -20,6 +20,35 @@ private static BoardDAO boardDao = new BoardDAO();
 		return boardDao;
 	}
 	
+	public List<Board> getBoardList(){
+		List<Board> list = new ArrayList<>();
+		Board bd = null;
+		
+		try {
+			conn();
+			String sql = "select * from board ORDER BY board_no";
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				bd = new Board();
+				bd.setMemberId(rs.getString("member_id"));
+				bd.setMemberFname(rs.getString("member_fname"));
+				bd.setMemberGrade(rs.getString("member_Grade"));
+				bd.setBoardNo(rs.getInt("board_no"));
+				bd.setBoardTitle(rs.getString("board_title"));
+				bd.setBoardContent(rs.getString("board_content"));
+				bd.setBoardDate(rs.getDate("board_date"));
+				bd.setBoardViews(rs.getInt("board_views"));
+				list.add(bd);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return list;
+	}
 	
 	public void boardAdd(Board board) {
 		int result = 0;
@@ -51,35 +80,6 @@ private static BoardDAO boardDao = new BoardDAO();
 	
 	
 	
-	public List<Board> getBoardList(){
-		List<Board> list = new ArrayList<>();
-		Board bd = null;
-
-		try {
-			conn();
-			String sql = "select * from board ORDER BY board_no";
-			stmt = conn.createStatement();
-			
-			rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				bd = new Board();
-				bd.setMemberId(rs.getString("member_id"));
-				bd.setMemberFname(rs.getString("member_fname"));
-				bd.setMemberGrade(rs.getString("member_Grade"));
-				bd.setBoardNo(rs.getInt("board_no"));
-				bd.setBoardTitle(rs.getString("board_title"));
-				bd.setBoardContent(rs.getString("board_content"));
-				bd.setBoardDate(rs.getDate("board_date"));
-				bd.setBoardViews(rs.getInt("board_views"));
-				list.add(bd);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			disconn();
-		}
-		return list;
-	}
 	
 	public Board getBoardContent(int boardNo) {
 		Board bd = null;

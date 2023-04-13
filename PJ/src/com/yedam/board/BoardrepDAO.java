@@ -114,7 +114,31 @@ public class BoardrepDAO extends DAO{
 		return result;
 	}
 	
-	
+	public Boardrep boardRepCheck(int repNo) {
+		Boardrep br = null;
+		try {
+			conn();
+			String sql = "select * from reply where rep_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, repNo);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				br = new Boardrep();
+				br.setRepNo(rs.getInt("rep_no"));
+				br.setMemberFname(rs.getString("member_fname"));
+				br.setRepContent(rs.getString("rep_content"));
+				br.setMemberId(rs.getString("member_id"));
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return br;
+	}
 	
 	
 	

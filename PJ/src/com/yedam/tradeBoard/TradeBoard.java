@@ -17,6 +17,6 @@ public class TradeBoard {
 	private Date boardDate;
 	private int boardViews;
 	private int boardRepCount;
-	
+	private String tradeIng;
 	
 }

@@ -6,9 +6,27 @@ import java.util.Scanner;
 import com.yedam.member.MemberService;
 
 public class BoardService {
-	public static Board boardInfo = null;
 	Scanner sc = new Scanner(System.in);
+	public static Board boardInfo = null;
 	BoardrepService br = new BoardrepService();
+	
+	public void getBoardList() {
+		List<Board> list = BoardDAO.getInstance().getBoardList();
+		if(list.isEmpty()) {
+			System.out.println("                    게시글 없음          ");
+		}else {
+			for(Board bd : list) {
+				System.out.print("|"+bd.getBoardNo()+"\t");
+				System.out.print("|"+bd.getBoardTitle()+"\t\t");
+				System.out.print("|"+bd.getMemberFname()+"\t");
+				System.out.print("|"+bd.getBoardDate()+"\t");
+				System.out.print(bd.getBoardViews()+"\t");
+				System.out.println();
+				
+			}
+			
+		}
+	}
 	
 	public void boardAdd() {
 		String boardTitle = "";
@@ -26,23 +44,6 @@ public class BoardService {
 		
 	}
 	
-	public void getBoardList() {
-		List<Board> list = BoardDAO.getInstance().getBoardList();
-		if(list.isEmpty()) {
-			System.out.println("                    게시글 없음          ");
-		}else {
-		for(Board bd : list) {
-			System.out.print("|"+bd.getBoardNo()+"\t");
-			System.out.print("|"+bd.getBoardTitle()+"\t\t");
-			System.out.print("|"+bd.getMemberFname()+"\t");
-			System.out.print("|"+bd.getBoardDate()+"\t");
-			System.out.print(bd.getBoardViews()+"\t");
-			System.out.println();
-			
-			}
-		
-		}
-	}
 	
 	public void getBoardContent() {
 		System.out.println("읽을 게시글 번호 입력 > ");
@@ -64,13 +65,18 @@ public class BoardService {
 		Board bd = BoardDAO.getInstance().getBoardContent(boardNo);
 		System.out.println("=====================================");
 		System.out.println("            "+ bd.getBoardTitle());
-		System.out.println("|"+bd.getBoardNo()+ "\t\t" +"| "+ bd.getMemberFname()+"| "+bd.getBoardDate()+"| "+bd.getBoardViews());
+		System.out.println("|"+bd.getBoardNo()+ "\t\t" +"| "+ bd.getMemberFname()+"| "+bd.getBoardDate());
 		System.out.println("=====================================");
 		System.out.println("\t" +bd.getBoardContent());
 		System.out.println();
 		System.out.println();
 		System.out.println();
 		System.out.println("=====================================");
+		//br.getBoardRepList();
+	}
+	
+	public void getRep() {
+		System.out.println("================댓글================");
 		br.getBoardRepList();
 	}
 	
