@@ -203,11 +203,11 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 			String sql = "select * from tradeboard where member_id = ? or trade_fname = ? ORDER BY board_no";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			pstmt.setString(2, TradeBoardService.tradeboardInfo.getMemberFname());
 			rs = pstmt.executeQuery();
 			
-			String sql2 = "select * from tradeboard where trade_fname = ? ORDER BY board_no";
-			pstmt.setString(1, TradeBoardService.tradeboardInfo.getMemberFname());
-			rs = pstmt.executeQuery();
+			
+			
 			
 			while(rs.next()) {
 				bd = new TradeBoard();
