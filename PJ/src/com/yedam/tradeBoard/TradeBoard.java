@@ -18,5 +18,7 @@ public class TradeBoard {
 	private int boardViews;
 	private int boardRepCount;
 	private String tradeIng;
+    private String tradeFname;
+	
 	
 }

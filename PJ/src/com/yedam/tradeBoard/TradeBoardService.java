@@ -28,6 +28,7 @@ public class TradeBoardService {
 			System.out.print("|"+bd.getTradeIng()+"\t");
 			System.out.print(bd.getBoardViews()+"\t");
 			System.out.println();
+			
 			}
 		
 		}
@@ -156,14 +157,45 @@ public class TradeBoardService {
 			System.out.print("|"+bd.getBoardViews()+"\t");
 			System.out.println();
 			}
+		}
+	}
+	
+	public void tradeChange() {
+		System.out.println("정보 수정할 게시글 번호 입력 > ");
+		int boardNo = sc.nextInt();
+		sc.nextLine();
+		String id = TradeBoardDAO.getInstance().getBoardContent(boardNo).getMemberId();
 		
+		if (id.equals(MemberService.memberInfo.getMemberId())) {
+			if(TradeBoardDAO.getInstance().getBoardContent(boardNo).getTradeIng().equals("거래완료")) {
+				System.out.println("이미 완료된 게시글 입니다");
+			}else {
+				System.out.println("거래 상태를 입력하세요 > ");
+				String tradeNow = sc.nextLine();
+				
+				System.out.println("구매자의 활동명을 입력하세요 > ");
+				String tradeFname = sc.nextLine();
+				
+				TradeBoard tradeboard = new TradeBoard();
+				tradeboard.setBoardNo(boardNo);
+				tradeboard.setTradeFname(tradeFname);
+				tradeboard.setTradeIng(tradeNow);
+				
+				int result = TradeBoardDAO.getInstance().getTradeIng(tradeboard);
+				if(result > 0) {
+					System.out.println("변경 성공");
+				}else {
+					System.out.println("변경 실패");
+				}
+				
+			}
+			
+		}else {
+			System.out.println("작성자만 가능");
 		}
 		
 		
-		
 	}
-	
-	
 	
 	
 	

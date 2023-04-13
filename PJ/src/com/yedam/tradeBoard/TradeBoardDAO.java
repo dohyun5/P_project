@@ -42,6 +42,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 				bd.setBoardDate(rs.getDate("board_date"));
 				bd.setBoardViews(rs.getInt("board_views"));
 				bd.setTradeIng(rs.getString("trade_ing"));
+				bd.setTradeFname(rs.getString("trade_fname"));
 				list.add(bd);
 			}
 		} catch (Exception e) {
@@ -60,7 +61,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 		
 		try {
 			conn();
-			String sql = "insert into tradeboard values (?,?,?,(SELECT NVL(MAX(board_no)+1,1) FROM tradeboard),?,?,sysdate,0,'판매중')";
+			String sql = "insert into tradeboard values (?,?,?,(SELECT NVL(MAX(board_no)+1,1) FROM tradeboard),?,?,sysdate,0,'판매중',null)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
 			pstmt.setString(2, MemberService.memberInfo.getMemberFname());
@@ -107,6 +108,8 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 				bd.setBoardDate(rs.getDate("board_date"));
 				bd.setBoardViews(rs.getInt("board_views"));
 				bd.setMemberId(rs.getString("member_id"));
+				bd.setTradeFname(rs.getString("trade_fname"));
+				bd.setTradeIng(rs.getString("trade_ing"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -197,10 +200,13 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 
 		try {
 			conn();
-			String sql = "select * from tradeboard where member_id = ? ORDER BY board_no";
+			String sql = "select * from tradeboard where member_id = ? or trade_fname = ? ORDER BY board_no";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			rs = pstmt.executeQuery();
 			
+			String sql2 = "select * from tradeboard where trade_fname = ? ORDER BY board_no";
+			pstmt.setString(1, TradeBoardService.tradeboardInfo.getMemberFname());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -214,6 +220,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 				bd.setBoardDate(rs.getDate("board_date"));
 				bd.setBoardViews(rs.getInt("board_views"));
 				bd.setTradeIng(rs.getString("trade_ing"));
+				bd.setTradeFname(rs.getString("trade_fname"));
 				list.add(bd);
 			}
 			
@@ -225,11 +232,40 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 		return list;
 	}
 	
+	public int getTradeIng(TradeBoard board) {
+		int result = 0;
+		
+		try {
+			conn();
+			String sql = "update tradeboard set trade_ing = ? where board_no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getTradeIng());
+			pstmt.setInt(2, board.getBoardNo());
+			result = pstmt.executeUpdate();
+			
+			String sql2 = "update tradeboard set trade_fname = ? where board_no = ?";
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setString(1, board.getTradeFname());
+			pstmt.setInt(2, board.getBoardNo());
+			pstmt.executeUpdate();
+			
+			
+			if(result == 1) {
+				System.out.println("수정 성공");
+			}else {
+				System.out.println("수정 실패");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return result;
+	}
 	
 	
 	
-	
-	
+ //fname일치하면 불러오
 	
 	
 	

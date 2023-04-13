@@ -184,10 +184,10 @@ public class ManageMent {
 					ts.tradeNow();
 					tradeIngMenu();
 					while(true) {
+						ts.tradeNow();
+						tradeIngMenu();
 						if(menu == 1) {
-							//정보 수정 - 판매할 사람 닉네임 선택 - 업데이트 해주면 - 본인 및 구매자는 조회 가능. //판매중 거래중 거래완료//
-							//공통적으로 가지는? 권한을 줘서 구매자 이름을 업데이트 해주고  
-							//구매목록 판매목록 ? 
+							ts.tradeChange();
 						}else if(menu == 2) {
 							break;
 						}
