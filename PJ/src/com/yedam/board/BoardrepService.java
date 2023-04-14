@@ -14,7 +14,7 @@ public class BoardrepService {
 		List<Boardrep> list = BoardrepDAO.getInstance().getBoardList(boardNo);
 		if(list.isEmpty()) {
 			System.out.println("               댓글 없음         ");
-			System.out.println("=====================================");
+			System.out.println("=============================================");
 		}else {
 			for(Boardrep br : list) {
 				System.out.print("|"+br.getRepNo()+"\t");
@@ -23,7 +23,7 @@ public class BoardrepService {
 				System.out.print("|"+br.getRepDate()+"\t");
 				System.out.println();
 			}
-			System.out.println("=====================================");
+			System.out.println("=============================================");
 		}
 	}
 	

@@ -39,7 +39,7 @@ public class ManageMent {
 						ms.getMember();
 					}else if(menu == 3) {
 						ms.getMemberG();
-					}else if(menu == 4) {
+					}else if(menu == 4) {						
 						ms.getMemberDv();
 					}else if(menu == 5) {
 						break;
@@ -47,6 +47,7 @@ public class ManageMent {
 				}
 				}else if(menu == 3) {
 					while(true) {
+						ms.getMemberList();
 						menu3();
 						if(menu == 1) {
 							ms.memberPwUpdate();
@@ -61,7 +62,17 @@ public class ManageMent {
 						}
 					}
 				}else if (menu == 4){
-					ms.memberDvUpdate();
+					//ms.getFilmMemberList();
+					while(true) {
+						ms.getFilmMemberList();
+						filmSelMenu();
+						if(menu == 1) {
+							ms.memberDvUpdate();
+						}else if(menu == 2) {
+							break;
+						}
+						
+					}
 				}else if (menu == 5){
 					while(true) {
 						selectBoard();
@@ -178,16 +189,32 @@ public class ManageMent {
 				}else if(menu == 3) {
 					ms.memberFnameUpdate2();
 				}else if(menu == 4) {
-					ms.nowDv();
+					while(true) {
+						ms.getfilmContent();
+						filmMenu();
+						if(menu == 1) {
+							ms.filmUpdate();
+						}else if(menu == 2) {
+							ms.nowDv();
+						}else if(menu == 3) {
+							break;
+						}
+					}
 				}else if(menu == 5) {
-					System.out.println("====================================================");
+					ts.getBoardContent3();
+					System.out.println("=========================================================================");
+					System.out.println("|번호\t|제목\t\t\t|판매자\t|작성일\t\t|거래상태  |조회수");
+					System.out.println("=========================================================================");
 					ts.tradeNow();
 					tradeIngMenu();
 					while(true) {
-						ts.tradeNow();
-						tradeIngMenu();
 						if(menu == 1) {
 							ts.tradeChange();
+							System.out.println("=========================================================================");
+							System.out.println("|번호\t|제목\t\t\t|판매자\t|작성일\t\t|거래상태   |조회수");
+							System.out.println("=========================================================================");
+							ts.tradeNow();
+							tradeIngMenu();
 						}else if(menu == 2) {
 							break;
 						}
@@ -315,7 +342,17 @@ public class ManageMent {
 					}else if(menu == 3) {
 						ms.memberFnameUpdate2();
 					}else if(menu == 4) {
-						ms.nowDv();
+						ms.getfilmContent();
+						while(true) {
+							filmMenu();
+							if(menu == 1) {
+								ms.filmUpdate();
+							}else if(menu == 2) {
+								ms.nowDv();
+							}else if(menu == 3) {
+								break;
+							}
+						}
 					}else if(menu == 5) {
 						while(true) {
 							boardMenu();
@@ -377,20 +414,24 @@ public class ManageMent {
 		}
 	}
 	
+	
+	
+	
+	
 	private void menu() {
 		if(MemberService.memberInfo.getMemberGrade().equals("A")) {
-			System.out.println("1. 회원 등록 | 2.회원 조회 | 3. 회원 정보 수정 | 4. 인화 및 배송 정보 변경 | 5. 게시판 관리 | 99. 로그아웃");
+			System.out.println("1. 회원 등록 | 2.회원 조회 | 3. 회원 정보 수정 | 4. 인화 및 배송 상태 변경 | 5. 게시판 관리 | 99. 로그아웃");
 		}else if(MemberService.memberInfo.getMemberGrade().equals("B")) {
-			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 현황 조회 | 5. 중고 거래 조회 | 6. 게시판 | 7. 탈퇴 | 99. 로그 아웃");
+			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 | 5. 중고 거래 조회 | 6. 게시판 | 7. 탈퇴 | 99. 로그 아웃");
 		}else if(MemberService.memberInfo.getMemberGrade().equals("C")) {
-			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 현황 조회 | 5. 게시판 | 6. 탈퇴 | 99. 로그 아웃");
+			System.out.println("1. 내 정보 조회 | 2. 비밀번호 수정 | 3. 활동명 수정 | 4. 인화 | 5. 게시판 | 6. 탈퇴 | 99. 로그 아웃");
 		}
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
 	}
 	
 	private void menu2() {
-		System.out.println("1. 전체 조회 | 2. 선택 조회 | 3. 등급별 조회 | 4. 상황별 조회 | 5. 상위 메뉴");
+		System.out.println("1. 전체 조회 | 2. 선택 조회 | 3. 등급별 조회 | 4. 인화상태별 조회 | 5. 상위 메뉴");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
 	}
@@ -408,11 +449,12 @@ public class ManageMent {
 	}
 	
 	public void boardMenu() {
-		System.out.println("==================팁 & 스킬 공유 게시판==================");
-		System.out.println("|글번호\t|제목\t\t|작성자\t|게시일\t      |조회수");
-		System.out.println("====================================================");
+		System.out.println("\t\t\t팁 & 스킬 공유 게시판");
+		System.out.println("================================================================");
+		System.out.println("|글번호\t|제목\t\t\t|작성자\t|작성일\t      |조회수");
+		System.out.println("================================================================");
 		bs.getBoardList();
-		System.out.println("====================================================");
+		System.out.println("================================================================");
 		System.out.println("1. 게시글 보기 | 2. 게시글 작성 | 3. 게시글 수정 | 4. 게시글 삭제 | 5. 상위 메뉴");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
@@ -425,11 +467,12 @@ public class ManageMent {
 	}
 	
 	private void tradeBoardMenu() {
-		System.out.println("==================중고 거래 게시판=====================");
-		System.out.println("|글번호\t|제목\t\t|작성자\t|게시일\t|조회수");
-		System.out.println("===================================================");
+		System.out.println("\t\t\t중고 거래 게시판");
+		System.out.println("==========================================================================");
+		System.out.println("|글번호\t|제목\t\t\t|작성자\t|작성일\t\t|거래상태 |조회수");
+		System.out.println("==========================================================================");
 		ts.getTradeBoardList();
-		System.out.println("====================================================");
+		System.out.println("==========================================================================");
 		System.out.println("1. 게시글 보기 | 2. 게시글 작성 | 3. 게시글 수정 | 4. 게시글 삭제 | 5. 상위 메뉴");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
@@ -456,17 +499,27 @@ public class ManageMent {
 	
 	
 	private void tradeIngMenu() {
-		System.out.println("====================================================");
+		System.out.println("=========================================================================");
 		System.out.println("1. 판매 상태 수정 | 2. 상위 메뉴");
 		System.out.println("입력 > ");
 		menu = Integer.parseInt(sc.nextLine());
 		
 	}
 	
+	private void filmMenu() {
+		System.out.println("1. 인화 신청 | 2. 인화 조회 | 3. 상위 메뉴");
+		System.out.println("입력 > ");
+		menu = Integer.parseInt(sc.nextLine());
+		
+	}
 	
 	
-	
-	
+	private void filmSelMenu() {
+		System.out.println("1. 상태 변경 | 2. 상위 메뉴");
+		System.out.println("입력 > ");
+		menu = Integer.parseInt(sc.nextLine());
+		
+	}
 	
 	
 	

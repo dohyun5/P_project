@@ -32,6 +32,8 @@ public class MemberDAO extends DAO{
 				member.setMemberPw(rs.getNString("member_pw"));
 				member.setMemberGrade(rs.getString("member_grade"));
 				member.setMemberFname(rs.getString("member_fname"));
+				member.setMemberDv(rs.getString("member_dv"));
+				member.setMemberName(rs.getString("member_name"));
 			}
 			
 		} catch (Exception e) {
@@ -79,7 +81,7 @@ public class MemberDAO extends DAO{
 		
 		try {
 			conn();
-			String sql = "insert into member VALUES (?,?,?,?,'없음','C')";
+			String sql = "insert into member VALUES (?,?,?,?,'신청가능','C')";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPw());
@@ -132,6 +134,36 @@ public class MemberDAO extends DAO{
 		}
 		return list;
 	}
+	
+	public List<Member> getFilmMemberList(){
+		List<Member> list = new ArrayList<>();
+		Member mem = null;
+		try {
+			conn();
+			String sql = "select * from member where member_dv = '신청' or member_dv = '인화중' or member_dv = '배송중' or member_dv = '배송완료'";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				mem = new Member();
+				
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setMemberPw(rs.getString("member_pw"));
+				mem.setMemberName(rs.getString("member_name"));
+				mem.setMemberFname(rs.getString("member_fname"));
+				mem.setMemberDv(rs.getString("member_dv"));
+				mem.setMemberGrade(rs.getString("member_grade"));
+				list.add(mem);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return list;
+	}
+	
 	
 	public Member getMember(String memberId) {
 		Member mem = null;
@@ -433,6 +465,35 @@ public class MemberDAO extends DAO{
 		}
 		return mem;
 	}
+	
+	
+	public int filmUpdate(Member member) {
+		int result = 0;
+		try {
+			conn();
+			String sql = "update member set member_dv = '신청' where member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberService.memberInfo.getMemberId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	finally {
+			disconn();
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

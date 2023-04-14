@@ -17,7 +17,7 @@ public class BoardService {
 		}else {
 			for(Board bd : list) {
 				System.out.print("|"+bd.getBoardNo()+"\t");
-				System.out.print("|"+bd.getBoardTitle()+"\t\t");
+				System.out.print("|"+bd.getBoardTitle()+"\t\t\t");
 				System.out.print("|"+bd.getMemberFname()+"\t");
 				System.out.print("|"+bd.getBoardDate()+"\t");
 				System.out.print(bd.getBoardViews()+"\t");
@@ -63,20 +63,21 @@ public class BoardService {
 	public void getBoardContent2() {
 		int boardNo = BoardService.boardInfo.getBoardNo();
 		Board bd = BoardDAO.getInstance().getBoardContent(boardNo);
-		System.out.println("=====================================");
-		System.out.println("            "+ bd.getBoardTitle());
-		System.out.println("|"+bd.getBoardNo()+ "\t\t" +"| "+ bd.getMemberFname()+"| "+bd.getBoardDate());
-		System.out.println("=====================================");
-		System.out.println("\t" +bd.getBoardContent());
+		System.out.println("=============================================");
+		System.out.println("               "+ bd.getBoardTitle());
+		System.out.println("=============================================");
+		System.out.println("|"+bd.getBoardNo()+ "\t\t  " + bd.getMemberFname()+"| "+bd.getBoardDate());
+		System.out.println("=============================================");
+		System.out.println("\t\t" +bd.getBoardContent());
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		System.out.println("=====================================");
+		System.out.println("=============================================");
 		//br.getBoardRepList();
 	}
 	
 	public void getRep() {
-		System.out.println("================댓글================");
+		System.out.println("=====================댓글=====================");
 		br.getBoardRepList();
 	}
 	

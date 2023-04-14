@@ -44,7 +44,9 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 				bd.setTradeIng(rs.getString("trade_ing"));
 				bd.setTradeFname(rs.getString("trade_fname"));
 				list.add(bd);
+				
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -61,7 +63,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 		
 		try {
 			conn();
-			String sql = "insert into tradeboard values (?,?,?,(SELECT NVL(MAX(board_no)+1,1) FROM tradeboard),?,?,sysdate,0,'판매중',null)";
+			String sql = "insert into tradeboard values (?,?,?,(SELECT NVL(MAX(board_no)+1,1) FROM tradeboard),?,?,sysdate,0,'판매중','없음')";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
 			pstmt.setString(2, MemberService.memberInfo.getMemberFname());
@@ -203,7 +205,7 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 			String sql = "select * from tradeboard where member_id = ? or trade_fname = ? ORDER BY board_no";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getMemberId());
-			pstmt.setString(2, TradeBoardService.tradeboardInfo.getMemberFname());
+			pstmt.setString(2, MemberService.memberInfo.getMemberFname());
 			rs = pstmt.executeQuery();
 			
 			
@@ -262,6 +264,55 @@ private static TradeBoardDAO tradeboardDao = new TradeBoardDAO();
 		}
 		return result;
 	}
+	
+	
+	public TradeBoard getBoardContent2(String memberId) {
+		
+		TradeBoard bd = null;
+		
+		try { 
+			conn();
+			String sql = "select * from tradeboard where member_id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				bd = new TradeBoard();
+				
+				bd.setBoardNo(rs.getInt("board_no"));
+				bd.setBoardTitle(rs.getString("board_title"));
+				bd.setMemberFname(rs.getString("member_fname"));
+				bd.setBoardContent(rs.getString("board_content"));
+				bd.setBoardDate(rs.getDate("board_date"));
+				bd.setBoardViews(rs.getInt("board_views"));
+				bd.setMemberId(rs.getString("member_id"));
+				bd.setTradeFname(rs.getString("trade_fname"));
+				bd.setTradeIng(rs.getString("trade_ing"));
+				bd = TradeBoardService.tradeboardInfo;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return bd;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

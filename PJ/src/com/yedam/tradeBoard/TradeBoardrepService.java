@@ -16,7 +16,7 @@ Scanner sc = new Scanner(System.in);
 		List<TradeBoardrep> list = TradeBoardrepDAO.getInstance().gettradeBoardList(boardNo);
 		if(list.isEmpty()) {
 			System.out.println("               댓글 없음         ");
-			System.out.println("=====================================");
+			System.out.println("=============================================");
 		}else {
 			for(TradeBoardrep br : list) {
 				System.out.print("|"+br.getRepNo()+"\t");
@@ -25,7 +25,7 @@ Scanner sc = new Scanner(System.in);
 				System.out.print("|"+br.getRepDate()+"\t");
 				System.out.println();
 			}
-			System.out.println("=====================================");
+			System.out.println("=============================================");
 		}
 	}
 	

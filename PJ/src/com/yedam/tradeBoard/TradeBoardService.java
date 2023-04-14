@@ -6,12 +6,14 @@ import java.util.Scanner;
 import com.yedam.board.Board;
 import com.yedam.board.BoardDAO;
 import com.yedam.board.BoardService;
+import com.yedam.member.MemberDAO;
 import com.yedam.member.MemberService;
 
 
 public class TradeBoardService {
 	Scanner sc = new Scanner(System.in);
 	public static TradeBoard tradeboardInfo = null;
+	
 	TradeBoardrepService tbs = new TradeBoardrepService();
 	
 	
@@ -25,10 +27,10 @@ public class TradeBoardService {
 			System.out.print("|"+bd.getBoardTitle()+"\t\t");
 			System.out.print("|"+bd.getMemberFname()+"\t");
 			System.out.print("|"+bd.getBoardDate()+"\t");
-			System.out.print("|"+bd.getTradeIng()+"\t");
+			System.out.print("|"+bd.getTradeIng()+"   ");
 			System.out.print(bd.getBoardViews()+"\t");
 			System.out.println();
-			
+			tradeboardInfo = bd;
 			}
 		
 		}
@@ -68,20 +70,32 @@ public class TradeBoardService {
 	public void getBoardContent2() {
 		int boardNo = TradeBoardService.tradeboardInfo.getBoardNo();
 		TradeBoard bd = TradeBoardDAO.getInstance().getBoardContent(boardNo);
-		System.out.println("=====================================");
+		System.out.println("=======================================");
 		System.out.println("            "+ bd.getBoardTitle());
 		System.out.println("|"+bd.getBoardNo()+ "\t\t" +"| "+ bd.getMemberFname()+"| "+bd.getBoardDate());
-		System.out.println("=====================================");
+		System.out.println("=======================================");
 		System.out.println("\t" +bd.getBoardContent());
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		System.out.println("=====================================");
+		System.out.println("=======================================");
 		//br.getBoardRepList();
 	}
 	
+	public void getBoardContent3() {
+		String memberId = MemberService.memberInfo.getMemberId();
+		TradeBoard bd = TradeBoardDAO.getInstance().getBoardContent2(memberId);
+		bd = TradeBoardService.tradeboardInfo;
+	}
+	
+	
+	
+	
+	
+	
+	
 	public void getRep() {
-		System.out.println("================댓글================");
+		System.out.println("====================댓글=====================");
 		tbs.gettradeBoardRepList();
 	}
 	
@@ -153,7 +167,7 @@ public class TradeBoardService {
 			System.out.print("|"+bd.getBoardTitle()+"\t\t");
 			System.out.print("|"+bd.getMemberFname()+"\t");
 			System.out.print("|"+bd.getBoardDate()+"\t");
-			System.out.print("|"+bd.getTradeIng()+"\t");
+			System.out.print("|"+bd.getTradeIng()+"    ");
 			System.out.print("|"+bd.getBoardViews()+"\t");
 			System.out.println();
 			}
@@ -168,26 +182,37 @@ public class TradeBoardService {
 		
 		if (id.equals(MemberService.memberInfo.getMemberId())) {
 			if(TradeBoardDAO.getInstance().getBoardContent(boardNo).getTradeIng().equals("거래완료")) {
-				System.out.println("이미 완료된 게시글 입니다");
+				System.out.println("이미 완료처리된 게시글 입니다");
 			}else {
 				System.out.println("거래 상태를 입력하세요 > ");
 				String tradeNow = sc.nextLine();
-				
-				System.out.println("구매자의 활동명을 입력하세요 > ");
-				String tradeFname = sc.nextLine();
-				
-				TradeBoard tradeboard = new TradeBoard();
-				tradeboard.setBoardNo(boardNo);
-				tradeboard.setTradeFname(tradeFname);
-				tradeboard.setTradeIng(tradeNow);
-				
-				int result = TradeBoardDAO.getInstance().getTradeIng(tradeboard);
-				if(result > 0) {
-					System.out.println("변경 성공");
+				if(tradeNow.equals("거래완료")) {
+					System.out.println("완료처리 되었습니다");
+					TradeBoard tradeboard = new TradeBoard();
+					tradeboard.setBoardNo(boardNo);
+					tradeboard.setTradeIng(tradeNow);
+					int result2 = TradeBoardDAO.getInstance().getTradeIng(tradeboard);
+					if(result2 > 0) {
+						System.out.println("변경 성공");
+					}else {
+						System.out.println("변경 실패");
+					}
 				}else {
-					System.out.println("변경 실패");
+					System.out.println("구매자의 활동명을 입력하세요 > ");
+					String tradeFname = sc.nextLine();
+					
+					TradeBoard tradeboard = new TradeBoard();
+					tradeboard.setBoardNo(boardNo);
+					tradeboard.setTradeFname(tradeFname);
+					tradeboard.setTradeIng(tradeNow);
+					
+					int result = TradeBoardDAO.getInstance().getTradeIng(tradeboard);
+					if(result > 0) {
+						System.out.println("변경 성공");
+					}else {
+						System.out.println("변경 실패");
+					}
 				}
-				
 			}
 			
 		}else {

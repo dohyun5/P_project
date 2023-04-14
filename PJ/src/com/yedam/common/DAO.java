@@ -78,7 +78,7 @@ public class DAO {
 	//DB 접속 정보 호출 메소드
 	private void getProperties() {
 		try {
-			FileReader resource = new FileReader("src/config/db.properties");
+			FileReader resource = new FileReader("db.properties");
 			pro.load(resource);
 			
 			driver = pro.getProperty("driver");
